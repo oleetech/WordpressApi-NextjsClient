@@ -10,12 +10,13 @@ import PageList from "./components/PageList";
 import SoftwareList from "./components/SoftwareList";
 import Logo from "./components/Logo";
 import PostsLoop from "./components/PostsLoop";
+import SlidersLoop from "./components/SlidersLoop";
+import AboutComponent from "./components/AboutComponent";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between ">
-       <Navbar />
-       <Projects/>
-       <PostsLoop/>
+  
+       <AboutComponent/>
     </main>
   );
 }

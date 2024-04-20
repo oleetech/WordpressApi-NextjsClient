@@ -19,7 +19,7 @@ function register_Projects_post_type() {
         'public'              => true,
         'has_archive'         => false,
         'menu_icon'           => 'dashicons-images-alt',
-        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
         'show_in_rest' => true, // This enables REST API support
     );
 
@@ -41,12 +41,14 @@ function custom_portfolio_post_type() {
         ),
         'public' => true,
         'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
         'show_in_rest' => true, // This enables REST API support
     );
     register_post_type('portfolio', $args);
 }
 add_action('init', 'custom_portfolio_post_type');
+
+
 function custom_portfolio_taxonomy() {
     $args = array(
         'labels' => array(
@@ -94,7 +96,7 @@ function create_social_media_post_type() {
         'has_archive'        => false,
         'hierarchical'       => false,
         'menu_position'      => 20,
-        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
         'show_in_rest'       => true, // Enable REST API support
         'rest_base'          => 'social-media-icons', // Custom REST API endpoint
     );
@@ -136,7 +138,7 @@ function create_gallery_post_type() {
         'has_archive'        => false,
         'hierarchical'       => false,
         'menu_position'      => 20,
-        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
         'show_in_rest'       => true, // Enable REST API support
         'rest_base'          => 'galleries', // Custom REST API endpoint
     );
@@ -178,7 +180,7 @@ function create_team_post_type() {
         'has_archive'        => false,
         'hierarchical'       => false,
         'menu_position'      => 20,
-        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
         'show_in_rest'       => true, // Enable REST API support
         'rest_base'          => 'team-members', // Custom REST API endpoint
         'taxonomies'         => array( 'category', 'post_tag' ), // Add support for categories and tags
@@ -240,7 +242,7 @@ function create_software_post_type() {
             ),
             'public' => true,
             'has_archive' => true,
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
             'rewrite' => array('slug' => 'software'),
             'show_in_rest' => true  // This enables the Gutenberg editor and REST API support
         )
@@ -248,3 +250,21 @@ function create_software_post_type() {
 }
 
 add_action('init', 'create_software_post_type');
+
+function create_slider_post_type() {
+    register_post_type('slider',
+        array(
+            'labels' => array(
+                'name' => __('Sliders'),
+                'singular_name' => __('Slider')
+            ),
+            'public' => true,
+            'has_archive' => false,
+            'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
+            'rewrite' => array('slug' => 'sliders'),
+            'show_in_rest' => true  // Enable Gutenberg editor and REST API support
+        )
+    );
+}
+
+add_action('init', 'create_slider_post_type');
