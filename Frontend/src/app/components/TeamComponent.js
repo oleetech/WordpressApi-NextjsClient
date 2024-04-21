@@ -46,7 +46,7 @@ const TeamComponent = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div>
+        <div className='bg-white border-b py-8'>
             <h1>Meet Our Team</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                 {teamMembers.map((member, index) => (

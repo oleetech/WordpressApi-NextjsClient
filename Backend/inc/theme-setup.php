@@ -46,6 +46,8 @@ function get_custom_settings() {
         'title'       => get_bloginfo('name'),
         'description' => get_bloginfo('description'),
         'logo'        => get_custom_logo_url(), // Ensure this function exists or implement it
+        'posts_per_page'    => get_option('posts_per_page', 10), // Retrieve the number of posts per page setting
+
     );
 
     return new WP_REST_Response($settings, 200);

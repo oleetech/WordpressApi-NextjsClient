@@ -12,6 +12,7 @@
 include get_template_directory() . '/inc/theme-setup.php';
 include get_template_directory() . '/inc/enque.php';
 include get_template_directory() . '/inc/custom-post.php';
+include get_template_directory() . '/inc/custom-settings.php';
 include get_template_directory() . '/inc/menu.php';
 include get_template_directory() . '/inc/widget.php';
 

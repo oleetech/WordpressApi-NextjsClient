@@ -1,4 +1,5 @@
 <?php
+// https://chat.openai.com/share/a4833dd5-d637-46b8-9409-16310d13587c
 function register_Projects_post_type() {
     $labels = array(
         'name'               => 'Projects Items',
@@ -32,7 +33,6 @@ add_action('init', 'register_Projects_post_type');
 
 
 
-
 function custom_portfolio_post_type() {
     $args = array(
         'labels' => array(
@@ -41,26 +41,39 @@ function custom_portfolio_post_type() {
         ),
         'public' => true,
         'has_archive' => true,
-        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
+        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes'),
         'show_in_rest' => true, // This enables REST API support
+        'rest_base' => 'portfolio', // Custom REST API endpoint
     );
     register_post_type('portfolio', $args);
 }
 add_action('init', 'custom_portfolio_post_type');
-
-
 function custom_portfolio_taxonomy() {
     $args = array(
         'labels' => array(
-            'name' => __('Categories'),
-            'singular_name' => __('Category'),
+            'name' => __('Portfolio Categories'),
+            'singular_name' => __('Portfolio Category'),
         ),
         'public' => true,
         'hierarchical' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_tagcloud' => false,
+        'show_in_rest' => true, // Enable REST API support
+        'rest_base' => 'portfolio_categories', // Customize the REST API base
     );
     register_taxonomy('portfolio_category', 'portfolio', $args);
 }
 add_action('init', 'custom_portfolio_taxonomy');
+
+function my_flush_rewrite_rules() {
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'my_flush_rewrite_rules');
+
+
+
 
 
 

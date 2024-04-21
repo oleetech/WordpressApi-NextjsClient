@@ -1,5 +1,5 @@
 import React from 'react';
-import Projects from '@/app/sections/Projects';
+import Projects from '@/app/components/Projects';
 import Head from 'next/head';
 
 const ProjectsPage = () => {
