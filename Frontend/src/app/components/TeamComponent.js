@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const GalleryComponent = () => {
-    const [galleries, setGalleries] = useState([]);
+const TeamComponent = () => {
+    const [teamMembers, setTeamMembers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Ensure this is defined in your .env file
@@ -20,26 +20,26 @@ const GalleryComponent = () => {
     };
 
     useEffect(() => {
-        const fetchGalleries = async () => {
+        const fetchTeam = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/wp-json/wp/v2/galleries`);
-                const galleryData = await Promise.all(response.data.map(async gallery => {
-                    const imageUrl = await fetchImage(gallery.featured_media);
+                const response = await axios.get(`${baseUrl}/wp-json/wp/v2/team-members`); // Adjust endpoint to 'team'
+                const teamData = await Promise.all(response.data.map(async member => {
+                    const imageUrl = member.featured_media ? await fetchImage(member.featured_media) : null;
                     return {
-                        ...gallery,
+                        ...member,
                         imageUrl
                     };
                 }));
-                setGalleries(galleryData);
+                setTeamMembers(teamData);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Failed to fetch galleries:', error);
-                setError('Failed to load galleries.');
+                console.error('Failed to fetch team members:', error);
+                setError('Failed to load team members.');
                 setIsLoading(false);
             }
         };
 
-        fetchGalleries();
+        fetchTeam();
     }, [baseUrl]);
 
     if (isLoading) return <p>Loading...</p>;
@@ -47,15 +47,15 @@ const GalleryComponent = () => {
 
     return (
         <div>
-            <h1>Gallery</h1>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                {galleries.map((gallery, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                        <h2>{gallery.title.rendered}</h2>
-                        {gallery.imageUrl && (
-                            <img src={gallery.imageUrl} alt={gallery.title.rendered} style={{ width: '300px', height: 'auto' }} />
+            <h1>Meet Our Team</h1>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                {teamMembers.map((member, index) => (
+                    <div key={index} style={{ margin: '10px', textAlign: 'center', maxWidth: '200px' }}>
+                        <h2>{member.title.rendered}</h2>
+                        {member.imageUrl && (
+                            <img src={member.imageUrl} alt={member.title.rendered} style={{ width: '100%', height: 'auto', borderRadius: '50%' }} />
                         )}
-                        <p dangerouslySetInnerHTML={{ __html: gallery.excerpt.rendered }} />
+                        <p>{member.content.rendered}</p>
                     </div>
                 ))}
             </div>
@@ -63,4 +63,4 @@ const GalleryComponent = () => {
     );
 };
 
-export default GalleryComponent;
+export default TeamComponent;
