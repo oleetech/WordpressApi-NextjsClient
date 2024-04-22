@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import Logo from './Logo';
 const Navigations = () => {
     const [menuItems, setMenuItems] = useState([]);
 
@@ -29,7 +30,7 @@ const Navigations = () => {
                         className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
                         href="#"
                     >
-                        {/* Your logo or brand name */}
+                        <Logo/>
                     </i>
                 </div>
                 <div className="block lg:hidden pr-4">

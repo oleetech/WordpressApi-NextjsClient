@@ -27,7 +27,9 @@ const Logo = () => {
 
     return (
         <div>
-            <img src={logoUrl} alt="Site Logo" style={{ width: '150px', height: 'auto' }} />
+            <a href='/'>
+            <img src={logoUrl} alt="Site Logo" style={{ width: '100px', height: '50px' }} />
+            </a>
         </div>
     );
 };

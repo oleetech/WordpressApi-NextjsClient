@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tailwindcss -i ./src/style.css -o ./styles.css"
+    "build": "postcss ./src/style.css -o ./styles.css",
+    "watch": "postcss ./src/style.css -o ./styles.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.10.2",
     "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
     "tailwindcss": "^3.4.3"
   }
 }
