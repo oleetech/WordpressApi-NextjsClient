@@ -5,6 +5,8 @@ function mytheme_enqueue_styles() {
     wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/src/bootstrap.min.css' );
     wp_enqueue_style( 'navbaranimated', get_template_directory_uri() . '/src/navbaranimated.css' );
     wp_enqueue_script('navbaranimated-js', get_template_directory_uri() . '/js/navbaranimated.js',array('jquery'), null, true);
+    wp_enqueue_script('custom-js', get_template_directory_uri() . '/js/custom.js',array('jquery'), null, true);
+
     
 }
 
