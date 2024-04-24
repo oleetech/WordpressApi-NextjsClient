@@ -1,55 +1,56 @@
-
 <?php
-class WP_Custom_Navwalker extends Walker_Nav_Menu {
-    // Start Element
-    public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-        $indent = ($depth) ? str_repeat("\t", $depth) : '';
-
-        $class_names = $value = '';
-
-        $classes = empty($item->classes) ? array() : (array) $item->classes;
-        $classes[] = 'menu-item-' . $item->ID;
-
-        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args, $depth));
-        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
-
-        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth);
-        $id = $id ? ' id="' . esc_attr($id) . '"' : '';
-
-        // Adding additional classes to the anchor tag
-        $anchor_classes = 'class="px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"';
-        
-        // Check if the item has children
-        $has_children = !empty($args->has_children) ? 'has-submenu' : '';
-
-        $output .= $indent . '<div' . $id . $value . $class_names . $has_children .'>';
-        $output .= $indent . '<button' . $anchor_classes .'>';
-        $output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
-        $output .= $item->description; // Add the description after the link title
-        $output .= '<svg fill="currentColor" viewBox="0 0 20 20" id="dropdownArrow" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>';
-        $output .= '</button>';
-
-        // If the item has children, add dropdown menu
-        if ($has_children) {
-            $output .= '<div id="dropdownMenu" style="display: none;" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">';
-            $output .= '<div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">';
+class My_Custom_Nav_Walker extends Walker_Nav_Menu {
+    // Starts the list before the elements are added.
+    function start_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+        if ($depth === 0) {
+            $output .= "\n$indent<div class=\"hori-selector\"><div class=\"left\"></div><div class=\"right\"></div></div>\n";
         }
+        $output .= "\n$indent<ul class=\"sub-menu\">\n";
     }
 
-    // End Element
-    public function end_el(&$output, $item, $depth = 0, $args = null) {
-        // Check if the item has children
-        $has_children = !empty($args->has_children) ? 'has-submenu' : '';
+    // Ends the list of after the elements are added.
+    function end_lvl( &$output, $depth = 0, $args = null ) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
 
-        // If the item has children, close dropdown menu and container div
-        if ($has_children) {
-            $output .= '</div>'; // Closing dropdown content div
-            $output .= '</div>'; // Closing dropdownMenu div
+    // Start the element output.
+    function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
+        $indent = ( $depth ) ? str_repeat("\t", $depth) : '';
+        $class_names = join(' ', $item->classes);
+        $class_names = $class_names ? ' class="nav-item ' . esc_attr($class_names) . '"' : ' class="nav-item"';
+
+        $output .= $indent . '<li' . $class_names . '>';
+
+        $atts = array();
+        $atts['title']  = ! empty($item->attr_title) ? $item->attr_title : '';
+        $atts['target'] = ! empty($item->target)     ? $item->target     : '';
+        $atts['rel']    = ! empty($item->xfn)        ? $item->xfn        : '';
+        $atts['href']   = ! empty($item->url)        ? $item->url        : '';
+
+        $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
+
+        $attributes = '';
+        foreach($atts as $attr => $value) {
+            if(! empty($value)) {
+                $value = esc_attr($value);
+                $attributes .= ' ' . $attr . '="' . $value . '"';
+            }
         }
 
-        $output .= "</div>\n"; // Closing container div
+        $item_output = $args->before;
+        $item_output .= '<a class="nav-link"' . $attributes . '>';
+        $item_output .= $args->link_before . '<i class="' . esc_attr($item->description) . '"></i>' . $item->title . $args->link_after;
+        $item_output .= '</a>';
+        $item_output .= $args->after;
+
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+
+    // End the element output.
+    function end_el( &$output, $item, $depth = 0, $args = null ) {
+        $output .= "</li>\n";
     }
 }
 
@@ -62,6 +63,16 @@ function my_theme_setup() {
     ));
 }
 add_action('after_setup_theme', 'my_theme_setup');
+
+function my_theme_menu() {
+    wp_nav_menu(array(
+        'theme_location' => 'primary', // or your specific theme location
+        'menu_class'     => 'navbar-nav ml-auto px-4',
+        'container'      => false, // no container wrapping the ul
+        'walker'         => new My_Custom_Nav_Walker()
+    ));
+}
+
 
 function register_menu_routes() {
     register_rest_route('wp/v2', '/menus/(?P<menu_name>[a-zA-Z0-9-]+)', array(

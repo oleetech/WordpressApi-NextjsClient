@@ -30,7 +30,10 @@ add_action('init', 'register_Projects_post_type');
 
 
 
-
+function my_flush_rewrite_rules() {
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'my_flush_rewrite_rules');
 
 
 function custom_portfolio_post_type() {
@@ -67,10 +70,7 @@ function custom_portfolio_taxonomy() {
 }
 add_action('init', 'custom_portfolio_taxonomy');
 
-function my_flush_rewrite_rules() {
-    flush_rewrite_rules();
-}
-add_action('after_switch_theme', 'my_flush_rewrite_rules');
+
 
 
 
@@ -119,46 +119,63 @@ function create_social_media_post_type() {
 add_action( 'init', 'create_social_media_post_type' );
 
 
-// Add custom post type for Gallery
-function create_gallery_post_type() {
-    $labels = array(
-        'name'               => 'Galleries',
-        'singular_name'      => 'Gallery',
-        'menu_name'          => 'Galleries',
-        'name_admin_bar'     => 'Gallery',
-        'add_new'            => 'Add New',
-        'add_new_item'       => 'Add New Gallery',
-        'new_item'           => 'New Gallery',
-        'edit_item'          => 'Edit Gallery',
-        'view_item'          => 'View Gallery',
-        'all_items'          => 'All Galleries',
-        'search_items'       => 'Search Galleries',
-        'parent_item_colon'  => 'Parent Galleries:',
-        'not_found'          => 'No galleries found.',
-        'not_found_in_trash' => 'No galleries found in Trash.'
-    );
-
+function custom_gallery_post_type() {
     $args = array(
-        'labels'             => $labels,
-        'description'        => 'Manage Galleries',
-        'public'             => true,
-        'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array( 'slug' => 'gallery' ),
-        'capability_type'    => 'post',
-        'has_archive'        => false,
-        'hierarchical'       => false,
-        'menu_position'      => 20,
-        'supports'           => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes' ),
-        'show_in_rest'       => true, // Enable REST API support
-        'rest_base'          => 'galleries', // Custom REST API endpoint
+        'labels' => array(
+            'name' => __('Galleries'),
+            'singular_name' => __('Gallery'),
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'author', 'excerpt', 'comments', 'revisions', 'page-attributes'),
+        'show_in_rest' => true, // This enables REST API support
+        'rest_base' => 'gallery', // Custom REST API endpoint
     );
-
-    register_post_type( 'gallery', $args );
+    register_post_type('gallery', $args);
 }
-add_action( 'init', 'create_gallery_post_type' );
+add_action('init', 'custom_gallery_post_type');
+
+function custom_gallery_taxonomies() {
+    // Register custom taxonomy for categories
+    $category_args = array(
+        'labels' => array(
+            'name' => __('Gallery Categories'),
+            'singular_name' => __('Gallery Category'),
+        ),
+        'public' => true,
+        'hierarchical' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_tagcloud' => false,
+        'show_in_rest' => true, // Enable REST API support
+        'rest_base' => 'gallery_categories', // Customize the REST API base
+    );
+    register_taxonomy('gallery_category', 'gallery', $category_args);
+
+    // Register custom taxonomy for tags
+    $tag_args = array(
+        'labels' => array(
+            'name' => __('Gallery Tags'),
+            'singular_name' => __('Gallery Tag'),
+        ),
+        'public' => true,
+        'hierarchical' => false,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_tagcloud' => true,
+        'show_in_rest' => true, // Enable REST API support
+        'rest_base' => 'gallery_tags', // Customize the REST API base
+    );
+    register_taxonomy('gallery_tag', 'gallery', $tag_args);
+}
+add_action('init', 'custom_gallery_taxonomies');
+
+
+
+
+
 
 
 // Add custom post type for Team

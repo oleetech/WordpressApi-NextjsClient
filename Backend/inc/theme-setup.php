@@ -53,10 +53,17 @@ function get_custom_settings() {
     return new WP_REST_Response($settings, 200);
 }
 
-// Function to get custom logo URL, implement if not existing
+// Function to get custom logo URL with specific size
 function get_custom_logo_url() {
+    // Get the ID of the custom logo
     $custom_logo_id = get_theme_mod('custom_logo');
-    $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
-    return $logo ? $logo[0] : '';
+    // Get the logo URL with the specified size (200x100)
+    $logo_url = '';
+    if ($custom_logo_id) {
+        $logo = wp_get_attachment_image_src($custom_logo_id, array(100, 50));
+        $logo_url = $logo ? $logo[0] : '';
+    }
+
+    return $logo_url;
 }

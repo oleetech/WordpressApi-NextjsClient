@@ -14,5 +14,23 @@ jQuery(document).ready(function($) {
   
         return false;
       });
+
+
+
     
 });
+
+
+
+
+// menu
+      jQuery(document).ready(function($) {
+        // Select the ul element with id menu-primary
+        var menuPrimary = $('#menu-primary');
+    
+        // Create the hori-selector div element
+        var horiSelectorDiv = $('<div class="hori-selector"><div class="left"></div><div class="right"></div></div>');
+    
+        // Add the hori-selector div after the menu-primary element
+        menuPrimary.after(horiSelectorDiv);
+    });

@@ -1,16 +1,17 @@
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-        <a class="navbar-brand navbar-logo" href="#">    <?php
-        if ( function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
-            the_custom_logo(); // Display custom logo if available
-        } else {
-            echo '<h1 class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home">' . get_bloginfo( 'name' ) . '</a></h1>';
-        }
-        ?></a>
+        <a class="navbar-brand navbar-logo " href="#">   
+<?php
+$logo_url = get_custom_logo_url();
+if ($logo_url) {
+    echo '<img src="' . esc_url($logo_url) . '" alt="Custom Logo" width="100" height="30">';
+}
+?>
+</a>
         <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto px-4">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
@@ -31,5 +32,8 @@
                     <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Documents</a>
                 </li>
             </ul>
+
+            <!-- <?php my_theme_menu(); ?> -->
+
         </div>
     </nav>
