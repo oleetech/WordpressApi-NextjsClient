@@ -28,6 +28,12 @@ function theme_setup() {
 
 add_action( 'after_setup_theme', 'theme_setup' );
 
+// Add WooCommerce support
+function child_theme_add_woocommerce_support() {
+    add_theme_support('woocommerce');
+}
+
+add_action('after_setup_theme', 'child_theme_add_woocommerce_support');
 
 function register_custom_api_endpoints() {
     // Register a REST route

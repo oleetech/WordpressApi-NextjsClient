@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-    $('.projects-slider').slick({
+    $('.projects-slider, ').slick({
         dots: true,
         infinite: true,
         speed: 300,
@@ -8,6 +8,9 @@ jQuery(document).ready(function($) {
         autoplay: true,          // Enable autoplay
         autoplaySpeed: 2000,     // Set the autoplay interval (2000ms = 2s)
     });
+
+
+    
 });
 
 

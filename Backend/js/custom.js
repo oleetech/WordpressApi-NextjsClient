@@ -34,3 +34,21 @@ jQuery(document).ready(function($) {
         // Add the hori-selector div after the menu-primary element
         menuPrimary.after(horiSelectorDiv);
     });
+
+
+    jQuery(document).ready(function($) {
+    // Hero Header carousel
+    $(".header-carousel").owlCarousel({
+      animateOut: 'slideOutDown',
+      items: 1,
+      autoplay: true,
+      smartSpeed: 1000,
+      dots: false,
+      loop: true,
+      nav : true,
+      navText : [
+          '<i class="bi bi-arrow-left"></i>',
+          '<i class="bi bi-arrow-right"></i>'
+      ],
+  });
+});

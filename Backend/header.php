@@ -9,15 +9,15 @@
 </head>
 <body <?php body_class(); ?>>
 
-<?php get_template_part('template_part/navbaranimated');?>
-<?php get_template_part('template_part/tabs-portfolio');?>
+
+
+<?php get_template_part('template_part/navbar1');?>
 
 
 
 
 <?php if ( is_front_page() ) { ?>
 			<!-- Start introduction -->
-            <?php get_template_part('template_part/slider-slider-post-type');?>
 			<!-- End introduction -->
 		<?php } ?>
 

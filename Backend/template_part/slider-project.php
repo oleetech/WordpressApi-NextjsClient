@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative container-fluid">
 <?php
 $args = array(
     'post_type' => 'projects_item', // Make sure this matches the post type key
@@ -11,7 +11,7 @@ if ($projects->have_posts()) :
         <?php while ($projects->have_posts()) : $projects->the_post(); ?>
             <div>
                 <?php if (has_post_thumbnail()) : ?>
-                    <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+                    <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title();?>" width="200px"  height="200px" >
                 <?php endif; ?>
                 <h2><?php the_title(); ?></h2>
             </div>
@@ -22,3 +22,5 @@ endif;
 wp_reset_postdata();
 ?>
 </div>
+
+
