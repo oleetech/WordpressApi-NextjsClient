@@ -24,7 +24,7 @@ function register_Projects_post_type() {
         'show_in_rest' => true, // This enables REST API support
     );
 
-    register_post_type('Projects', $args);
+    register_post_type('projects', $args);
 }
 add_action('init', 'register_Projects_post_type');
 

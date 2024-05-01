@@ -1,20 +1,30 @@
-"use client"
-import { useSearchParams } from "next/navigation";
-const Post = () => {
-  
-  const searchParams = useSearchParams();
-  const title = searchParams.get("title");
-  const description = searchParams.get("description");
-  const image = searchParams.get("image");
-  const excerpt = searchParams.get("excerpt");
+const Post = ({ params }) => {
+  const post = params.slug;
+
+  async function fetchPosts() {
+    const res = await fetch(`https://blog.jrrecyclingsolutionsltd.com.bd/wp-json/custom/v1/${post}`);
+    const posts = await res.json();
+    return posts;
+  }
+  const posts = await fetchPosts();
 
   return (
     <div>
-      <h1>{title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: description }} />
+
     </div>
   );
 }
 
 // This assumes that the slug is passed to the component as a prop
 export default Post;
+
+
+import React from 'react'
+
+function page() {
+  return (
+    <div>page</div>
+  )
+}
+
+export default page

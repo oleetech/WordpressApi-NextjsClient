@@ -1,7 +1,7 @@
 <div class="relative">
 <?php
 $args = array(
-    'post_type' => 'projects_item', // Make sure this matches the post type key
+    'post_type' => 'projects', // Make sure this matches the post type key
     'posts_per_page' => -1 // Fetch all posts
 );
 $projects = new WP_Query($args);

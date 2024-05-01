@@ -1,12 +1,15 @@
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-        <a class="navbar-brand navbar-logo " href="#">   
-<?php
-$logo_url = get_custom_logo_url();
-if ($logo_url) {
-    echo '<img src="' . esc_url($logo_url) . '" alt="Custom Logo" width="100" height="30">';
-}
+        <?php
+// Get the URL of the WordPress logo
+$logo_url = get_header_image();
+// Get the home URL of the WordPress site
+$home_url = home_url();
 ?>
+
+<a href="<?php echo esc_url($home_url); ?>" class="navbar-brand navbar-logo ">
+    <img src="<?php echo esc_url($logo_url); ?>" width="100px" height="50px" alt="WordPress Logo">
 </a>
+
         <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
         </button>
